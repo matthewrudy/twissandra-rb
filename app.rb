@@ -9,41 +9,40 @@ set :views, 'views'
 set :slim, pretty: true
 set :server, :puma
 
-# Set up a logger
-require 'logger'
-LOGGER = Logger.new($stderr)
+require 'cequel'
 
-# Set up Cassandra
-require 'cql'
-require 'cql/compression/snappy_compressor'
+Cequel::Record.establish_connection(host: '127.0.0.1', keyspace: 'twissandra')
 
-CASSANDRA_KEYSPACE = 'twissandra'
+class Userline
+  include Cequel::Record
 
-CASSANDRA = Cql::Client.connect(
-  hosts: ['127.0.0.1'],
-  compressor: Cql::Compression::SnappyCompressor.new,
-  logger: LOGGER)
+  self.table_name = :userline
 
-CASSANDRA.use(CASSANDRA_KEYSPACE)
+  key    :username, :text
+  key    :time,     :timeuuid
+  column :tweet_id, :uuid
 
-GET_USERLINE = CASSANDRA.prepare("SELECT * FROM userline WHERE username=? LIMIT ?")
-
-def get_public_userline(maxid=nil, limit=25)
-  rows = GET_USERLINE.execute("!PUBLIC!", limit)
-
-  get_tweets(rows.map{|r| r['tweet_id']})
+  def tweet
+    @tweet ||= Tweet.find(tweet_id)
+  end
 end
 
-GET_TWEET = CASSANDRA.prepare("SELECT * FROM tweets WHERE tweet_id = ?")
+class Tweet
+  include Cequel::Record
 
-def get_tweets(tweet_ids)
-  tweet_ids.map do |tweet_id|
-    GET_TWEET.execute(tweet_id).first
-  end
+  self.table_name = :tweets
+
+  key    :tweet_id, :uuid
+  column :body,     :text
+  column :username, :text
+end
+
+def get_public_userline(maxid=nil, limit=25)
+  Userline['!PUBLIC!']
 end
 
 # Application routes
 get '/' do
-  @tweets = get_public_userline
+  @timeline = get_public_userline
   slim :index
 end
