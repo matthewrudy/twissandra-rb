@@ -26,8 +26,20 @@ CASSANDRA = Cql::Client.connect(
 
 CASSANDRA.use(CASSANDRA_KEYSPACE)
 
-def get_public_userline
-  CASSANDRA.execute("SELECT * FROM userline WHERE username=?", "!PUBLIC!")
+GET_USERLINE = CASSANDRA.prepare("SELECT * FROM userline WHERE username=? LIMIT ?")
+
+def get_public_userline(maxid=nil, limit=25)
+  rows = GET_USERLINE.execute("!PUBLIC!", limit)
+
+  get_tweets(rows.map{|r| r['tweet_id']})
+end
+
+GET_TWEET = CASSANDRA.prepare("SELECT * FROM tweets WHERE tweet_id = ?")
+
+def get_tweets(tweet_ids)
+  tweet_ids.map do |tweet_id|
+    GET_TWEET.execute(tweet_id).first
+  end
 end
 
 # Application routes
