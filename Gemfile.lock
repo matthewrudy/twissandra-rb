@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    cql-rb (2.0.0.pre0)
     puma (2.8.0)
       rack (>= 1.1, < 2.0)
     puma (2.8.0-java)
@@ -11,6 +12,9 @@ GEM
     slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
+    snappy (0.0.10-java)
+      snappy-jars (~> 1.1.0)
+    snappy-jars (1.1.0.1.2-java)
     temple (0.6.7)
     tilt (2.0.0)
 
@@ -19,6 +23,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cql-rb (= 2.0.0.pre0)
   puma
   sinatra
   slim
+  snappy
