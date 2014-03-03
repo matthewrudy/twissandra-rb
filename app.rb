@@ -10,8 +10,10 @@ set :slim, pretty: true
 set :server, :puma
 
 require 'cequel'
-
 Cequel::Record.establish_connection(host: '127.0.0.1', keyspace: 'twissandra')
+
+require 'logger'
+Cequel::Record.connection.logger = Logger.new($stderr)
 
 class Userline
   include Cequel::Record
@@ -38,11 +40,23 @@ class Tweet
 end
 
 def get_public_userline(maxid=nil, limit=25)
-  Userline['!PUBLIC!']
+  scope = Userline['!PUBLIC!'].limit(limit)
+
+  if maxid
+    scope.before(maxid)
+  else
+    scope
+  end
 end
 
 # Application routes
 get '/' do
   @timeline = get_public_userline
+  slim :index
+end
+
+get '/before/:timestamp' do
+  maxid = Cql::TimeUuid.new(params[:timestamp])
+  @timeline = get_public_userline(maxid)
   slim :index
 end

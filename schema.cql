@@ -1,3 +1,5 @@
+DROP KEYSPACE IF EXISTS twissandra;
+
 CREATE KEYSPACE twissandra WITH replication = {
   'class': 'SimpleStrategy',
   'replication_factor': '1'

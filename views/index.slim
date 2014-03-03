@@ -13,3 +13,8 @@
             p= tweet.body
 
             p= entry.time.to_time
+
+    - if @timeline.any?
+      a href="/before/#{@timeline.last.time}" next
+    - else
+      p No Tweets :(
