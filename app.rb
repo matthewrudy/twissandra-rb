@@ -18,11 +18,23 @@ Cequel::Record.connection.logger = Logger.new($stderr)
 class Userline
   include Cequel::Record
 
+  PUBLIC_USERNAME = "!PUBLIC!".freeze
+
   self.table_name = :userline
 
   key    :username, :text
-  key    :time,     :timeuuid
+  key    :time,     :timeuuid, auto: true
   column :tweet_id, :uuid
+
+  def self.public(maxid=nil, limit=25)
+    scope = Userline['!PUBLIC!'].limit(limit)
+
+    if maxid
+      scope.before(maxid)
+    else
+      scope
+    end
+  end
 
   def tweet
     @tweet ||= Tweet.find(tweet_id)
@@ -34,29 +46,28 @@ class Tweet
 
   self.table_name = :tweets
 
-  key    :tweet_id, :uuid
+  key    :tweet_id, :uuid, auto: true
   column :body,     :text
   column :username, :text
 end
 
-def get_public_userline(maxid=nil, limit=25)
-  scope = Userline['!PUBLIC!'].limit(limit)
-
-  if maxid
-    scope.before(maxid)
-  else
-    scope
-  end
-end
-
 # Application routes
 get '/' do
-  @timeline = get_public_userline
+  @timeline = Userline.public
   slim :index
 end
 
 get '/before/:timestamp' do
   maxid = Cql::TimeUuid.new(params[:timestamp])
-  @timeline = get_public_userline(maxid)
+  @timeline = Userline.public(maxid)
   slim :index
 end
+
+post '/tweet' do
+  tweet_params = params.fetch("tweet").slice("body", "username")
+  tweet = Tweet.create(tweet_params)
+  Userline.create(username: Userline::PUBLIC_USERNAME, tweet_id: tweet.tweet_id)
+
+  redirect to('/')
+end
+

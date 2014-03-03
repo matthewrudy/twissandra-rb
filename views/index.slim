@@ -1,6 +1,11 @@
 .row
   .col-sm-8
 
+    form method="post" action="/tweet"
+      input.form-control.input-lg type="text" name="tweet[body]"
+      input.form-control.input-lg type="text" name="tweet[username]" value="Gary"
+      button.btn.btn-primary type="submit" Tweet
+
     ul.media-list
       - @timeline.each do |entry|
         - tweet = entry.tweet
