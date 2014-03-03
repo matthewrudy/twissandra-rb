@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'sinatra'
 gem 'slim'
 gem 'puma'
+gem 'tilt', '~> 1.4.1' # fix tilt
 
 # cassandra
 gem 'cequel', github: 'cequel/cequel'
