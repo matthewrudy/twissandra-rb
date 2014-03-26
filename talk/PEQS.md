@@ -1,11 +1,17 @@
 # P.E.Q.S.
 
+
 ## Processes
 
+* Creating a User
 * Sending a Tweet
 * Reading my Timeline
 * Following a User
 * Unfollowing a User
+
+### Creating a User
+
+* store User details
 
 ### Sending a Tweet
 
@@ -16,7 +22,8 @@
 ### Reading my Timeline
 
 * find Tweets from my Timeline
-* find the User details for each Tweet
+* load the Tweet details
+* load the User details
 
 ### Following a User
 
@@ -37,6 +44,7 @@
 
 * uuid     - uuid
 * username - varchar
+* location - text - an example of user metadata
 
 Unique by `uuid`
 
@@ -50,6 +58,53 @@ Unique by `uuid`
 Unique by `uuid`
 
 ### Userline - tweets posted by the user
+
+* user_uuid  - uuid
+* tweet_uuid - timeuuid
+
+Unique by `{user_uuid, tweet_uuid}`
+
+### Timeline - tweets posted by users the user follows
+
+* user_uuid       - uuid
+* tweet_uuid      - timeuuid
+* tweet_user_uuid - uuid - make it easy to remove tweets when we unfollow a user
+
+Unique by `{user_uuid, tweet_uuid}`
+
+### Friends - users who are followed by the user
+
+* user_uuid   - uuid
+* friend_uuid - uuid
+* timestamp   - timestamp
+
+Unique by `{user_uuid, friend_uuid}`
+
+### Followers - users who are following the user
+
+* user_uuid   - uuid
+* friend_uuid - uuid
+* timestamp   - timestamp
+
+Unique by `{user_uuid, friend_uuid}`
+
+
+## Queries
+
+### Users
+
+* find_by_uuid     - returns User object with the uuid
+* find_by_username - returns User object with the requested username
+* find_all_following - returns User objects which follow User
+
+### Tweets
+
+* find_by_uuid - returns Tweet object with the requested uuid
+
+
+### Userline
+
+* find
 
 * user_uuid  - uuid
 * tweet_uuid - timeuuid
