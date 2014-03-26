@@ -10,3 +10,7 @@ gem 'tilt', '~> 1.4.1' # fix tilt
 gem 'cequel'
 gem 'cql-rb', '2.0.0.pre1'
 gem 'snappy'
+
+group :development do
+  gem 'pry'
+end
