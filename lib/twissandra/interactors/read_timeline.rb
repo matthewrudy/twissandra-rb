@@ -8,8 +8,6 @@ module Twissandra
       # * load the Tweet details
       tweets = Tweet.find(timeline_entries.map(&:tweet_id))
 
-      binding.pry
-
       # * load the User details
       users = User.find_all(tweets.map(&:user_id))
 

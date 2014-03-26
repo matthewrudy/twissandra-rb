@@ -40,7 +40,7 @@ module Twissandra
       where(:username, username).first
     end
 
-    def self.find_all(*ids)
+    def self.find_all(ids)
       uniq_ids = ids.uniq
       records = find(uniq_ids)
       ids.map do |id|
