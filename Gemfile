@@ -7,6 +7,6 @@ gem 'puma'
 gem 'tilt', '~> 1.4.1' # fix tilt
 
 # cassandra
-gem 'cequel', github: 'cequel/cequel'
-gem 'cql-rb', '2.0.0.pre0'
+gem 'cequel'
+gem 'cql-rb', '2.0.0.pre1'
 gem 'snappy'
