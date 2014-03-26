@@ -8,13 +8,13 @@ module Twissandra
 
       # * add Tweet to my Followers Timelines
       User.find_followers(me).each do |follower|
-        Timeline.add_tweet(follower, tweet, me)
+        Timeline.add_tweet(follower, tweet)
       end
 
       # * add Tweet to *mentioned* users' Timeline
-      User.find_mentioned(tweet).each do |mentioned|
-        Timeline.add_tweet(mentioned, tweet, me)
-      end
+      # User.find_mentioned(tweet).each do |mentioned|
+      #   Timeline.add_tweet(mentioned, tweet)
+      # end
 
       {tweet: tweet}
     end

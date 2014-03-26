@@ -19,5 +19,9 @@ module Twissandra
     key    :user_uuid,       :uuid
     key    :tweet_uuid,      :timeuuid
     column :tweet_user_uuid, :uuid
+
+    def self.add_tweet(user, tweet)
+      create(user_uuid: user.uuid, tweet_uuid: tweet.uuid, tweet_user_uuid: tweet.user_uuid)
+    end
   end
 end
