@@ -1,9 +1,9 @@
 module Twissandra
   class SendTweet
-    def perform(me, tweet_hash)
+    def self.perform(me, tweet_hash)
 
       # * create a Tweet for Me
-      tweet = Tweet.create(me, tweet_hash)
+      tweet = Tweet.create_for_user(me, tweet_hash)
       Userline.add_tweet(me, tweet)
 
       # * add Tweet to my Followers Timelines

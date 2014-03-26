@@ -1,6 +1,6 @@
 module Twissandra
   class FollowUser
-    def perform(me, user)
+    def self.perform(me, user)
 
       # * add User to my Friends
       Friend.add_user(me, user)

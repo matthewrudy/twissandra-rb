@@ -1,6 +1,6 @@
 module Twissandra
   class UnfollowUser
-    def perform(me, user)
+    def self.perform(me, user)
 
       # * remove User from my Friends
       Friend.remove_user(me, user)

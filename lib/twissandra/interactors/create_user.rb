@@ -1,6 +1,6 @@
 module Twissandra
   class CreateUser
-    def perform(user_hash)
+    def self.perform(user_hash)
 
       # * store User details
       user = User.create(user_hash)

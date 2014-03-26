@@ -1,6 +1,6 @@
 module Twissandra
   class ReadTimeline
-    def perform(me, max_timestamp)
+    def self.perform(me, max_timestamp)
 
       # * find Tweets from my Timeline
       timeline_entries = Timeline.find_tweets(me, max_timestamp, limit: 200)
