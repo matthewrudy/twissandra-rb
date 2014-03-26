@@ -1,17 +1,27 @@
-## Entities
+// Create the KEYSPACE
 
-### Users - a user
+DROP KEYSPACE IF EXISTS twissandra;
+
+CREATE KEYSPACE twissandra WITH replication = {
+  'class': 'SimpleStrategy',
+  'replication_factor': '1'
+};
+
+USE twissandra;
+
+
+// Users - a user
 
 CREATE TABLE users (
   uuid     uuid,
   username text,
-  location text
+  location text,
 
   PRIMARY KEY (uuid)
 );
 
 
-### Tweets - a tweet posted by the user
+// Tweets - a tweet posted by the user
 
 CREATE TABLE tweets (
   uuid      timeuuid,
@@ -23,7 +33,7 @@ CREATE TABLE tweets (
 );
 
 
-### Userline - tweets posted by the user
+// Userline - tweets posted by the user
 
 CREATE TABLE userline (
   user_uuid uuid,
@@ -35,7 +45,7 @@ CREATE TABLE userline (
 WITH CLUSTERING ORDER BY (tweet_uuid DESC);
 
 
-### Timeline - tweets posted by users the user follows
+// Timeline - tweets posted by users the user follows
 
 CREATE TABLE timeline (
   user_uuid       uuid,
@@ -48,7 +58,7 @@ CREATE TABLE timeline (
 WITH CLUSTERING ORDER BY (tweet_uuid DESC);
 
 
-### Friends - users who are followed by the user
+// Friends - users who are followed by the user
 
 CREATE TABLE friends (
   user_uuid   uuid,
@@ -59,7 +69,7 @@ CREATE TABLE friends (
 );
 
 
-### Followers - users who are following the user
+// Followers - users who are following the user
 
 CREATE TABLE followers (
   user_uuid   uuid,
