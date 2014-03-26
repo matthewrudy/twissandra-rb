@@ -10,46 +10,12 @@ set :slim, pretty: true
 set :server, :puma
 
 require 'cequel'
-Cequel::Record.establish_connection(host: '127.0.0.1', keyspace: 'twissandra')
+Cequel::Record.establish_connection(host: '127.0.0.1:9160', keyspace: 'twissandra')
 
 require 'logger'
 Cequel::Record.connection.logger = Logger.new($stderr)
 
-class Userline
-  include Cequel::Record
-
-  PUBLIC_USERNAME = "!PUBLIC!".freeze
-
-  self.table_name = :userline
-
-  key    :username, :text
-  key    :time,     :timeuuid, auto: true
-  column :tweet_id, :uuid
-
-  def self.public(maxid=nil, limit=25)
-    scope = Userline['!PUBLIC!'].limit(limit)
-
-    if maxid
-      scope.before(maxid)
-    else
-      scope
-    end
-  end
-
-  def tweet
-    @tweet ||= Tweet.find(tweet_id)
-  end
-end
-
-class Tweet
-  include Cequel::Record
-
-  self.table_name = :tweets
-
-  key    :tweet_id, :uuid, auto: true
-  column :body,     :text
-  column :username, :text
-end
+require 'twissandra'
 
 # Application routes
 get '/' do
