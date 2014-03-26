@@ -3,7 +3,7 @@ module Twissandra
   class User
 
     # CREATE TABLE users (
-    #   uuid     uuid,
+    #   id       uuid,
     #   username text,
     #   location text,
 
@@ -14,12 +14,12 @@ module Twissandra
 
     self.table_name = :users
 
-    key    :uuid,     :uuid, auto: true
+    key    :id,       :uuid, auto: true
     column :username, :text
     column :location, :text
 
     # INSERT INTO users
-    #   (uuid, username, location)
+    #   (id, username, location)
     # VALUES
     #   (?, ?, ?)
     # ;

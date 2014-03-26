@@ -3,31 +3,31 @@ module Twissandra
   class Tweet
 
     # CREATE TABLE tweets (
-    #   uuid      timeuuid,
-    #   user_uuid uuid,
-    #   body      text,
-    #   mentions  set<uuid>,
+    #   id       timeuuid,
+    #   user_id  uuid,
+    #   body     text,
+    #   mentions set<uuid>,
 
-    #   PRIMARY KEY (uuid)
+    #   PRIMARY KEY (id)
     # );
 
     include Cequel::Record
 
     self.table_name = :tweets
 
-    key    :uuid,      :timeuuid, auto: true
-    column :user_uuid, :uuid
-    column :body,      :text
+    key    :id,      :timeuuid, auto: true
+    column :user_id, :uuid
+    column :body,    :text
 
     # INSERT INTO tweets
-    #   (uuid, user_uuid, body)
+    #   (id, user_id, body)
     # VALUES
     #   (?, ?, ?)
     # ;
     #
 
     def self.create_for_user(user, tweet_hash)
-      tweet_attributes = tweet_hash.slice(:body).merge(user_uuid: user.uuid)
+      tweet_attributes = tweet_hash.slice(:body).merge(user_id: user.id)
 
       create(tweet_attributes)
     end

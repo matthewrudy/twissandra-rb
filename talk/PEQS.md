@@ -51,7 +51,7 @@ Unique by `uuid`
 ### Tweets - a tweet posted by the user
 
 * uuid      - timeuuid - this is a combination of a a timestamp and a unique id
-* user_uuid - uuid
+* user_id - uuid
 * body      - text
 * mentions  - set(uuid)
 
@@ -59,78 +59,78 @@ Unique by `uuid`
 
 ### Userline - tweets posted by the user
 
-* user_uuid  - uuid
-* tweet_uuid - timeuuid
+* user_id  - uuid
+* tweet_id - timeuuid
 
-Unique by `{user_uuid, tweet_uuid}`
+Unique by `{user_id, tweet_id}`
 
 ### Timeline - tweets posted by users the user follows
 
-* user_uuid       - uuid
-* tweet_uuid      - timeuuid
-* tweet_user_uuid - uuid - make it easy to remove tweets when we unfollow a user
+* user_id       - uuid
+* tweet_id      - timeuuid
+* tweet_user_id - uuid - make it easy to remove tweets when we unfollow a user
 
-Unique by `{user_uuid, tweet_uuid}`
+Unique by `{user_id, tweet_id}`
 
 ### Friends - users who are followed by the user
 
-* user_uuid   - uuid
-* friend_uuid - uuid
+* user_id   - uuid
+* friend_id - uuid
 * timestamp   - timestamp
 
-Unique by `{user_uuid, friend_uuid}`
+Unique by `{user_id, friend_id}`
 
 ### Followers - users who are following the user
 
-* user_uuid   - uuid
-* friend_uuid - uuid
+* user_id   - uuid
+* friend_id - uuid
 * timestamp   - timestamp
 
-Unique by `{user_uuid, friend_uuid}`
+Unique by `{user_id, friend_id}`
 
 
 ## Queries
 
 ### Users
 
-* find_by_uuid     - returns User object with the uuid
+* find_by_id     - returns User object with the uuid
 * find_by_username - returns User object with the requested username
 * find_all_following - returns User objects which follow User
 
 ### Tweets
 
-* find_by_uuid - returns Tweet object with the requested uuid
+* find_by_id - returns Tweet object with the requested uuid
 
 
 ### Userline
 
 * find
 
-* user_uuid  - uuid
-* tweet_uuid - timeuuid
+* user_id  - uuid
+* tweet_id - timeuuid
 
-Unique by `{user_uuid, tweet_uuid}`
+Unique by `{user_id, tweet_id}`
 
 ### Timeline - tweets posted by users the user follows
 
-* user_uuid       - uuid
-* tweet_uuid      - timeuuid
-* tweet_user_uuid - uuid - make it easy to remove tweets when we unfollow a user
+* user_id       - uuid
+* tweet_id      - timeuuid
+* tweet_user_id - uuid - make it easy to remove tweets when we unfollow a user
 
-Unique by `{user_uuid, tweet_uuid}`
+Unique by `{user_id, tweet_id}`
 
 ### Friends - users who are followed by the user
 
-* user_uuid   - uuid
-* friend_uuid - uuid
+* user_id   - uuid
+* friend_id - uuid
 * timestamp   - timestamp
 
-Unique by `{user_uuid, friend_uuid}`
+Unique by `{user_id, friend_id}`
 
 ### Followers - users who are following the user
 
-* user_uuid   - uuid
-* friend_uuid - uuid
+* user_id   - uuid
+* friend_id - uuid
 * timestamp   - timestamp
 
-Unique by `{user_uuid, friend_uuid}`
+Unique by `{user_id, friend_id}`
