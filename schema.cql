@@ -1,47 +1,70 @@
-DROP KEYSPACE IF EXISTS twissandra;
+## Entities
 
-CREATE KEYSPACE twissandra WITH replication = {
-  'class': 'SimpleStrategy',
-  'replication_factor': '1'
-};
+### Users - a user
 
-CREATE TABLE twissandra.followers (
+CREATE TABLE users (
+  uuid     uuid,
   username text,
-  follower text,
-  since timestamp,
-  PRIMARY KEY (username, follower)
+  location text
+
+  PRIMARY KEY (uuid)
 );
 
-CREATE TABLE twissandra.friends (
-  username text,
-  friend text,
-  since timestamp,
-  PRIMARY KEY (username, friend)
+
+### Tweets - a tweet posted by the user
+
+CREATE TABLE tweets (
+  uuid      timeuuid,
+  user_uuid uuid,
+  body      text,
+  mentions  set<uuid>,
+
+  PRIMARY KEY (uuid)
 );
 
-CREATE TABLE twissandra.timeline (
-  username text,
-  time timeuuid,
-  tweet_id uuid,
-  PRIMARY KEY (username, time)
-) WITH CLUSTERING ORDER BY (time DESC);
 
-CREATE TABLE twissandra.tweets (
-  tweet_id uuid,
-  body text,
-  username text,
-  PRIMARY KEY (tweet_id)
+### Userline - tweets posted by the user
+
+CREATE TABLE userline (
+  user_uuid uuid,
+  tweet_uuid timeuuid,
+
+  PRIMARY KEY (user_uuid, tweet_uuid)
+)
+
+WITH CLUSTERING ORDER BY (tweet_uuid DESC);
+
+
+### Timeline - tweets posted by users the user follows
+
+CREATE TABLE timeline (
+  user_uuid       uuid,
+  tweet_uuid      timeuuid,
+  tweet_user_uuid uuid,
+
+  PRIMARY KEY (user_uuid, tweet_uuid)
+)
+
+WITH CLUSTERING ORDER BY (tweet_uuid DESC);
+
+
+### Friends - users who are followed by the user
+
+CREATE TABLE friends (
+  user_uuid   uuid,
+  friend_uuid uuid,
+  timestamp   timestamp,
+
+  PRIMARY KEY (user_uuid, friend_uuid)
 );
 
-CREATE TABLE twissandra.userline (
-  username text,
-  time timeuuid,
-  tweet_id uuid,
-  PRIMARY KEY (username, time)
-) WITH CLUSTERING ORDER BY (time DESC);
 
-CREATE TABLE twissandra.users (
-  username text,
-  password text,
-  PRIMARY KEY (username)
+### Followers - users who are following the user
+
+CREATE TABLE followers (
+  user_uuid   uuid,
+  follower_uuid uuid,
+  timestamp   timestamp,
+
+  PRIMARY KEY (user_uuid, follower_uuid)
 );
