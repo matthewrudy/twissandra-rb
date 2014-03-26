@@ -8,17 +8,27 @@ This project owes its existence to the [Twissandra](https://github.com/twissandr
 
 ## Installation
 
+Install and start cassandra
+
     $ brew install cassandra
     $ cassandra -f
+
+Install and bundle ruby
 
     $ rvm install jruby
     $ rvm use jruby
     $ bundle install
 
-## Design
+Load in the schema
 
+    $ cqlsh < schema.sql
 
+## TODO
 
+* Uniqueness for usernames
+* Show a public timeline
+* Pagination
+* Prepared statements
 
 ## Contributing
 
