@@ -8,18 +8,14 @@
 
     ul.media-list
       - @timeline.each do |entry|
-        - tweet = entry.tweet
+        - tweet = entry[:tweet]
+        - user  = entry[:user]
         li.media
           .pull-left
-            img.media-object src="http://lorempixel.com/60/60/people?r=#{tweet.username}"
+            img.media-object src="http://lorempixel.com/60/60/people?r=#{user.username}"
 
           .media-body
-            h4.media-heading= tweet.username
+            h4.media-heading= user.username
             p= tweet.body
 
-            p= entry.time.to_time
-
-    - if @timeline.any?
-      a href="/before/#{@timeline.last.time}" next
-    - else
-      p No Tweets :(
+            p= tweet.id.to_time

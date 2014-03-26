@@ -20,6 +20,8 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 
+CREATE INDEX ON users (username);
+
 
 // Tweets - a tweet posted by the user
 

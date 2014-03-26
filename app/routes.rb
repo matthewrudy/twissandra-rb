@@ -2,7 +2,7 @@ require_relative './boot'
 
 # Application routes
 get '/' do
-  @timeline = Userline.public
+  @timeline = Twissandra::ReadTimeline.perform(current_user)[:tweets]
   slim :index
 end
 
@@ -20,3 +20,6 @@ post '/tweet' do
   redirect to('/')
 end
 
+def current_user
+  @current_user ||= Twissandra::User.find_by_username("me")
+end
