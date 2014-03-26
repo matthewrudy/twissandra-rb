@@ -17,5 +17,9 @@ module Twissandra
     key    :user_uuid,   :uuid
     key    :friend_uuid, :uuid
     column :timestamp,   :timestamp
+
+    def self.add_user(user, friend)
+      create(user_uuid: user.uuid, friend_uuid: friend.uuid, timestamp: Time.now)
+    end
   end
 end

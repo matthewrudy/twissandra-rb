@@ -17,5 +17,9 @@ module Twissandra
     key    :user_uuid,     :uuid
     key    :follower_uuid, :uuid
     column :timestamp,     :timestamp
+
+    def self.add_user(user, follower)
+      create(user_uuid: user.uuid, follower_uuid: follower_uuid, timestamp: Time.now)
+    end
   end
 end
