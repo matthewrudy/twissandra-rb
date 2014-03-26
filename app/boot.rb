@@ -12,7 +12,7 @@ set :slim, pretty: true
 set :server, :puma
 
 require 'cequel'
-Cequel::Record.establish_connection(host: '127.0.0.1', port: 9160, keyspace: 'twissandra')
+Cequel::Record.establish_connection(host: '127.0.0.1', keyspace: 'twissandra')
 
 require 'logger'
 Cequel::Record.connection.logger = Logger.new($stderr)

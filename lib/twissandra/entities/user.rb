@@ -30,5 +30,11 @@ module Twissandra
     #   super(attributes)
     # end
 
+    def self.create_with_username(username, user_hash)
+      raise "username #{username.inspect} already in use" if find_by_username(username)
+
+      create(user_hash.merge(username: username))
+    end
+
   end
 end
