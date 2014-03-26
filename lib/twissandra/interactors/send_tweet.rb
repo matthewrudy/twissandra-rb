@@ -7,7 +7,8 @@ module Twissandra
       Userline.add_tweet(me, tweet)
 
       # * add Tweet to my Followers Timelines
-      User.find_followers(me).each do |follower|
+      Follower.find_all_by_user(me).each do |follower_entry|
+        follower = User.find(follower_entry.follower_id)
         Timeline.add_tweet(follower, tweet)
       end
 

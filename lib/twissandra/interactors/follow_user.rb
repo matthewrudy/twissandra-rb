@@ -9,8 +9,9 @@ module Twissandra
       Follower.add_user(user, me)
 
       # * add User's Tweets to my Timeline
-      Userline.find_tweets(user) do |userline_entry|
-        Timeline.add_tweet_from_userline(userline_entry, me)
+      Userline.find_tweets(user).each do |userline_entry|
+        tweet = Tweet.find(userline_entry.tweet_id)
+        Timeline.add_tweet(me, tweet)
       end
 
       # return the user we followed

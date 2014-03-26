@@ -21,5 +21,9 @@ module Twissandra
     def self.add_tweet(user, tweet)
       create(user_id: user.id, tweet_id: tweet.id)
     end
+
+    def self.find_tweets(user)
+      self[user.id]
+    end
   end
 end
