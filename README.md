@@ -21,7 +21,7 @@ Install and bundle ruby
 
 Load in the schema
 
-    $ cqlsh < db/schema.sql
+    $ cqlsh < db/schema.cql
 
 Seed the database
 
